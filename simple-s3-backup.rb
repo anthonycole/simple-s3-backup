@@ -44,18 +44,6 @@ if defined?(MYSQL_DBS)
   end
 end
 
-# Perform MongoDB backups
-if defined?(MONGO_DBS)
-  mdb_dump_dir = File.join(full_tmp_path, "mdbs")
-  FileUtils.mkdir_p mdb_dump_dir
-  MONGO_DBS.each do |mdb|
-    mdb_filename = "mdb-#{mdb}-#{timestamp}.tgz"
-    system("#{MONGODUMP_CMD} -h #{MONGO_HOST} -d #{mdb} -o #{mdb_dump_dir} && cd #{mdb_dump_dir}/#{mdb} && #{TAR_CMD} -czf #{full_tmp_path}/#{mdb_filename} .")
-    S3Object.store(mdb_filename, open("#{full_tmp_path}/#{mdb_filename}"), S3_BUCKET)
-  end
-  FileUtils.remove_dir mdb_dump_dir
-end
-
 # Perform directory backups
 if defined?(DIRECTORIES)
   DIRECTORIES.each do |name, dir|
@@ -90,9 +78,3 @@ end
 
 # Remove tmp directory
 FileUtils.remove_dir full_tmp_path
-
-# Now, clean up unwanted archives
-cutoff_date = Time.now.utc.to_i - (DAYS_OF_ARCHIVES * 86400)
-bucket.objects.select{ |o| o.last_modified.to_i < cutoff_date }.each do |f|
-  S3Object.delete(f.key, S3_BUCKET)
-end
