@@ -1,6 +1,5 @@
 # EXECUTABLES
 MYSQLDUMP_CMD = '/usr/bin/mysqldump'
-MONGODUMP_CMD = '/usr/bin/mongodump'
 GZIP_CMD = '/bin/gzip'
 TAR_CMD = '/bin/tar'
 CP_CMD = '/bin/cp'
@@ -33,12 +32,6 @@ MYSQL_DB = 'localhost'
 MYSQL_USER = 'XXXXX'
 MYSQL_PASS = 'XXXXX'
 
-# MONGODB CONFIG
-#  * Put the MongoDB table names that you want to back up in the MONGO_DBS array below
-#    Archive will be named in the format: mdb-table_name-200912010423.tgz
-#    where 200912010423 is the date/time when the script is run
-MONGO_DBS = ['mongo_db_one', 'mongo_db_test']
-MONGO_HOST = 'localhost'
 
 # DIRECTORY BACKUP CONFIG
 #  * Add hash pair for each directory you want to backup
