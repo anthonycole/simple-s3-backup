@@ -39,7 +39,13 @@ if defined?(MYSQL_DBS)
     else
       password_param = ""
     end
-    system("#{MYSQLDUMP_CMD} -u #{MYSQL_USER} #{password_param} --single-transaction --add-drop-table --add-locks --create-options --disable-keys --extended-insert --quick #{db} | #{GZIP_CMD} -c > #{full_tmp_path}/#{db_filename}")
+
+    if defined?(MYSQL_HOST) and MYSQL_HOST!=nil AND MYSQL_HOST!=""
+      host_param = "--host=#{MYSQL_HOST}"
+    else
+      host_param = ""
+    end
+    system("#{MYSQLDUMP_CMD} -u #{MYSQL_USER} #{password_param} #{host_param} --single-transaction --add-drop-table --add-locks --create-options --disable-keys --extended-insert --quick #{db} | #{GZIP_CMD} -c > #{full_tmp_path}/#{db_filename}")
     S3Object.store(db_filename, open("#{full_tmp_path}/#{db_filename}"), S3_BUCKET)
   end
 end

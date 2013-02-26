@@ -1,5 +1,6 @@
 # EXECUTABLES
 MYSQLDUMP_CMD = '/usr/bin/mysqldump'
+MYSQL_HOST = ''
 GZIP_CMD = '/bin/gzip'
 TAR_CMD = '/bin/tar'
 CP_CMD = '/bin/cp'
@@ -52,3 +53,5 @@ SINGLE_FILES = {
   'important_configs' => ['/etc/hosts', '/etc/my.cnf'],
   'other_configs' => ['/etc/syslog.conf', '/etc/smb.conf']
 }
+
+# Email address to drop over 
